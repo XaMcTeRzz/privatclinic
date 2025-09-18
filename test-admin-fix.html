@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест исправления админ-панели</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тест исправления админ-панели</h1>
+    
+    <div class="test-section">
+        <h2>Тест синхронизации данных врачей</h2>
+        <button onclick="testDoctorsSync()">Запустить тест врачей</button>
+        <div id="doctorsResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Тест синхронизации данных услуг</h2>
+        <button onclick="testServicesSync()">Запустить тест услуг</button>
+        <div id="servicesResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Тест синхронизации данных цен</h2>
+        <button onclick="testPricesSync()">Запустить тест цен</button>
+        <div id="pricesResult"></div>
+    </div>
+
+    <script>
+        function showResult(elementId, message, isSuccess) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="test-result ${isSuccess ? 'success' : 'error'}">${message}</div>`;
+        }
+
+        async function testDoctorsSync() {
+            try {
+                // Load current doctors
+                const doctorsResponse = await fetch('/api/load-data?filename=doctors.json');
+                const doctorsData = await doctorsResponse.json();
+                
+                // Add a test doctor
+                const newDoctor = {
+                    id: Date.now(),
+                    name: "Тестовый Врач",
+                    specialty: "Тестовая специальность",
+                    experience: 5,
+                    photo: "images/doctor-placeholder.jpg",
+                    education: "Тестовое образование",
+                    description: "Тестовое описание врача",
+                    rating: 5,
+                    reviews_count: 0,
+                    available: true,
+                    qualifications: [],
+                    schedule: {
+                        monday: "9:00-17:00",
+                        tuesday: "9:00-17:00",
+                        wednesday: "9:00-17:00",
+                        thursday: "9:00-17:00",
+                        friday: "9:00-15:00",
+                        saturday: "выходной",
+                        sunday: "выходной"
+                    }
+                };
+                
+                const updatedDoctors = [...doctorsData, newDoctor];
+                
+                // Save the data
+                const saveResponse = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        filename: 'doctors.json',
+                        data: updatedDoctors
+                    })
+                });
+                
+                if (saveResponse.ok) {
+                    // Verify the data was saved
+                    const verifyResponse = await fetch('/api/load-data?filename=doctors.json');
+                    const verifyData = await verifyResponse.json();
+                    const addedDoctor = verifyData.find(d => d.id === newDoctor.id);
+                    
+                    if (addedDoctor) {
+                        showResult('doctorsResult', 'Тест синхронизации врачей ПРОЙДЕН! Данные успешно сохранены и загружены.', true);
+                    } else {
+                        showResult('doctorsResult', 'Тест синхронизации врачей НЕ ПРОЙДЕН! Врач не найден после сохранения.', false);
+                    }
+                } else {
+                    showResult('doctorsResult', 'Тест синхронизации врачей НЕ ПРОЙДЕН! Ошибка сохранения данных.', false);
+                }
+            } catch (error) {
+                showResult('doctorsResult', `Тест синхронизации врачей НЕ ПРОЙДЕН! Ошибка: ${error.message}`, false);
+            }
+        }
+
+        async function testServicesSync() {
+            try {
+                // Load current services
+                const servicesResponse = await fetch('/api/load-data?filename=services.json');
+                const servicesData = await servicesResponse.json();
+                
+                // Add a test service
+                const newService = {
+                    id: Date.now(),
+                    name: "Тестовая услуга",
+                    description: "Тестовое описание услуги",
+                    icon: "fas fa-stethoscope",
+                    price: "1000",
+                    category: "consultation",
+                    duration: "60 мин",
+                    available: true
+                };
+                
+                const updatedServices = [...servicesData, newService];
+                
+                // Save the data
+                const saveResponse = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        filename: 'services.json',
+                        data: updatedServices
+                    })
+                });
+                
+                if (saveResponse.ok) {
+                    // Verify the data was saved
+                    const verifyResponse = await fetch('/api/load-data?filename=services.json');
+                    const verifyData = await verifyResponse.json();
+                    const addedService = verifyData.find(s => s.id === newService.id);
+                    
+                    if (addedService) {
+                        showResult('servicesResult', 'Тест синхронизации услуг ПРОЙДЕН! Данные успешно сохранены и загружены.', true);
+                    } else {
+                        showResult('servicesResult', 'Тест синхронизации услуг НЕ ПРОЙДЕН! Услуга не найдена после сохранения.', false);
+                    }
+                } else {
+                    showResult('servicesResult', 'Тест синхронизации услуг НЕ ПРОЙДЕН! Ошибка сохранения данных.', false);
+                }
+            } catch (error) {
+                showResult('servicesResult', `Тест синхронизации услуг НЕ ПРОЙДЕН! Ошибка: ${error.message}`, false);
+            }
+        }
+
+        async function testPricesSync() {
+            try {
+                // Load current prices
+                const pricesResponse = await fetch('/api/load-data?filename=prices.json');
+                const pricesData = await pricesResponse.json();
+                
+                showResult('pricesResult', `Тест синхронизации цен ПРОЙДЕН! Загружено ${pricesData.length} категорий цен.`, true);
+            } catch (error) {
+                showResult('pricesResult', `Тест синхронизации цен НЕ ПРОЙДЕН! Ошибка: ${error.message}`, false);
+            }
+        }
+    </script>
+</body>
+</html>

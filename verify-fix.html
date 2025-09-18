@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка исправления админ-панели</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-section {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #fafafa;
+        }
+        .test-result {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 10px auto;
+            width: 200px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .instructions {
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Проверка исправления админ-панели</h1>
+        
+        <div class="instructions">
+            <h2>Инструкция:</h2>
+            <p>1. Откройте эту страницу в браузере по адресу: http://localhost:8080/verify-fix.html</p>
+            <p>2. Нажмите на кнопки ниже для тестирования каждой функции</p>
+            <p>3. После тестирования проверьте, что изменения отображаются на сайте</p>
+        </div>
+
+        <div class="test-section">
+            <h2>Тест 1: Загрузка данных врачей</h2>
+            <button onclick="testLoadDoctors()">Загрузить данные врачей</button>
+            <div id="doctorsLoadResult"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Тест 2: Добавление нового врача</h2>
+            <button onclick="testAddDoctor()">Добавить тестового врача</button>
+            <div id="doctorAddResult"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Тест 3: Загрузка данных услуг</h2>
+            <button onclick="testLoadServices()">Загрузить данные услуг</button>
+            <div id="servicesLoadResult"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Тест 4: Добавление новой услуги</h2>
+            <button onclick="testAddService()">Добавить тестовую услугу</button>
+            <div id="serviceAddResult"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Тест 5: Загрузка данных цен</h2>
+            <button onclick="testLoadPrices()">Загрузить данные цен</button>
+            <div id="pricesLoadResult"></div>
+        </div>
+    </div>
+
+    <script>
+        function showResult(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="test-result ${type}">${message}</div>`;
+        }
+
+        async function testLoadDoctors() {
+            try {
+                showResult('doctorsLoadResult', 'Загрузка данных врачей...', 'info');
+                const response = await fetch('/api/load-data?filename=doctors.json');
+                const doctors = await response.json();
+                showResult('doctorsLoadResult', `Успешно загружено ${doctors.length} врачей`, 'success');
+            } catch (error) {
+                showResult('doctorsLoadResult', `Ошибка загрузки врачей: ${error.message}`, 'error');
+            }
+        }
+
+        async function testAddDoctor() {
+            try {
+                showResult('doctorAddResult', 'Загрузка текущих данных врачей...', 'info');
+                const loadResponse = await fetch('/api/load-data?filename=doctors.json');
+                const currentDoctors = await loadResponse.json();
+                
+                // Создаем тестового врача
+                const newDoctor = {
+                    id: Date.now(),
+                    name: "Тестовый Врач",
+                    specialty: "Тестовая специальность",
+                    experience: 5,
+                    photo: "images/doctor-placeholder.jpg",
+                    education: "Тестовое образование",
+                    description: "Тестовое описание врача для проверки исправления админ-панели",
+                    rating: 5,
+                    reviews_count: 0,
+                    available: true,
+                    qualifications: ["Тестовая квалификация"],
+                    schedule: {
+                        monday: "9:00-17:00",
+                        tuesday: "9:00-17:00",
+                        wednesday: "9:00-17:00",
+                        thursday: "9:00-17:00",
+                        friday: "9:00-15:00",
+                        saturday: "выходной",
+                        sunday: "выходной"
+                    }
+                };
+                
+                const updatedDoctors = [...currentDoctors, newDoctor];
+                
+                showResult('doctorAddResult', 'Сохранение данных врача...', 'info');
+                const saveResponse = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        filename: 'doctors.json',
+                        data: updatedDoctors
+                    })
+                });
+                
+                if (saveResponse.ok) {
+                    showResult('doctorAddResult', 'Тестовый врач успешно добавлен! Проверьте страницу врачей на сайте.', 'success');
+                } else {
+                    const errorText = await saveResponse.text();
+                    showResult('doctorAddResult', `Ошибка сохранения врача: ${saveResponse.status} - ${errorText}`, 'error');
+                }
+            } catch (error) {
+                showResult('doctorAddResult', `Ошибка добавления врача: ${error.message}`, 'error');
+            }
+        }
+
+        async function testLoadServices() {
+            try {
+                showResult('servicesLoadResult', 'Загрузка данных услуг...', 'info');
+                const response = await fetch('/api/load-data?filename=services.json');
+                const services = await response.json();
+                showResult('servicesLoadResult', `Успешно загружено ${services.length} услуг`, 'success');
+            } catch (error) {
+                showResult('servicesLoadResult', `Ошибка загрузки услуг: ${error.message}`, 'error');
+            }
+        }
+
+        async function testAddService() {
+            try {
+                showResult('serviceAddResult', 'Загрузка текущих данных услуг...', 'info');
+                const loadResponse = await fetch('/api/load-data?filename=services.json');
+                const currentServices = await loadResponse.json();
+                
+                // Создаем тестовую услугу
+                const newService = {
+                    id: Date.now(),
+                    name: "Тестовая услуга",
+                    description: "Тестовое описание услуги для проверки исправления админ-панели",
+                    icon: "fas fa-stethoscope",
+                    price: "1000",
+                    category: "consultation",
+                    duration: "60 мин",
+                    available: true
+                };
+                
+                const updatedServices = [...currentServices, newService];
+                
+                showResult('serviceAddResult', 'Сохранение данных услуги...', 'info');
+                const saveResponse = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        filename: 'services.json',
+                        data: updatedServices
+                    })
+                });
+                
+                if (saveResponse.ok) {
+                    showResult('serviceAddResult', 'Тестовая услуга успешно добавлена! Проверьте страницу услуг на сайте.', 'success');
+                } else {
+                    const errorText = await saveResponse.text();
+                    showResult('serviceAddResult', `Ошибка сохранения услуги: ${saveResponse.status} - ${errorText}`, 'error');
+                }
+            } catch (error) {
+                showResult('serviceAddResult', `Ошибка добавления услуги: ${error.message}`, 'error');
+            }
+        }
+
+        async function testLoadPrices() {
+            try {
+                showResult('pricesLoadResult', 'Загрузка данных цен...', 'info');
+                const response = await fetch('/api/load-data?filename=prices.json');
+                const prices = await response.json();
+                showResult('pricesLoadResult', `Успешно загружено ${prices.length} категорий цен`, 'success');
+            } catch (error) {
+                showResult('pricesLoadResult', `Ошибка загрузки цен: ${error.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

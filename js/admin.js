@@ -343,6 +343,9 @@ function deleteDoctor(id) {
         currentData.doctors = currentData.doctors.filter(d => d.id !== id);
         renderDoctors();
         showNotification('Врач удален', 'success');
+        
+        // Автоматически сохраняем данные на сервер
+        saveDoctorsData();
     }
 }
 
@@ -391,6 +394,34 @@ function handleDoctorSubmit(e) {
 
     renderDoctors();
     closeDoctorModal();
+    
+    // Автоматически сохраняем данные на сервер
+    saveDoctorsData();
+}
+
+// Функция для сохранения данных врачей
+async function saveDoctorsData() {
+    try {
+        const response = await fetch('/api/save-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                filename: 'doctors.json',
+                data: currentData.doctors
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to save doctors data');
+        }
+        
+        showNotification('Данные врачей сохранены', 'success');
+    } catch (error) {
+        console.error('Ошибка сохранения данных врачей:', error);
+        showNotification('Ошибка сохранения данных врачей: ' + error.message, 'error');
+    }
 }
 
 // Функции для работы с услугами
@@ -426,6 +457,9 @@ function deleteService(id) {
         currentData.services = currentData.services.filter(s => s.id !== id);
         renderServices();
         showNotification('Услуга удалена', 'success');
+        
+        // Автоматически сохраняем данные на сервер
+        saveServicesData();
     }
 }
 
@@ -462,9 +496,37 @@ function handleServiceSubmit(e) {
 
     renderServices();
     closeServiceModal();
+    
+    // Автоматически сохраняем данные на сервер
+    saveServicesData();
 }
 
-// Функции-заглушки для цен и отзывов
+// Функция для сохранения данных услуг
+async function saveServicesData() {
+    try {
+        const response = await fetch('/api/save-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                filename: 'services.json',
+                data: currentData.services
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to save services data');
+        }
+        
+        showNotification('Данные услуг сохранены', 'success');
+    } catch (error) {
+        console.error('Ошибка сохранения данных услуг:', error);
+        showNotification('Ошибка сохранения данных услуг: ' + error.message, 'error');
+    }
+}
+
+// Функции для работы с ценами
 function addNewPriceCategory() {
     showNotification('Функция в разработке', 'warning');
 }
@@ -477,6 +539,32 @@ function deletePriceCategory(index) {
     showNotification('Функция в разработке', 'warning');
 }
 
+// Функция для сохранения данных цен
+async function savePricesData() {
+    try {
+        const response = await fetch('/api/save-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                filename: 'prices.json',
+                data: currentData.prices
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to save prices data');
+        }
+        
+        showNotification('Данные цен сохранены', 'success');
+    } catch (error) {
+        console.error('Ошибка сохранения данных цен:', error);
+        showNotification('Ошибка сохранения данных цен: ' + error.message, 'error');
+    }
+}
+
+// Функции для работы с отзывами
 function addNewReview() {
     showNotification('Функция в разработке', 'warning');
 }
@@ -487,6 +575,31 @@ function editReview(id) {
 
 function deleteReview(id) {
     showNotification('Функция в разработке', 'warning');
+}
+
+// Функция для сохранения данных отзывов
+async function saveReviewsData() {
+    try {
+        const response = await fetch('/api/save-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                filename: 'reviews.json',
+                data: currentData.reviews
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to save reviews data');
+        }
+        
+        showNotification('Данные отзывов сохранены', 'success');
+    } catch (error) {
+        console.error('Ошибка сохранения данных отзывов:', error);
+        showNotification('Ошибка сохранения данных отзывов: ' + error.message, 'error');
+    }
 }
 
 // Сохранение настроек

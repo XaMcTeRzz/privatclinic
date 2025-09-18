@@ -4,7 +4,8 @@ const path = require('path');
 
 // Убедимся что директория для данных существует
 const ensureDataDir = () => {
-  const dataDir = path.join('/tmp', 'data');
+  // Используем основную директорию data вместо tmp/data
+  const dataDir = path.join(__dirname, '../../data');
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
   }

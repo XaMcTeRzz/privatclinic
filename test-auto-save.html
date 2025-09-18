@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест автоматического сохранения</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тест автоматического сохранения</h1>
+    
+    <div class="test-section">
+        <h2>Тест добавления врача с автоматическим сохранением</h2>
+        <button onclick="testAddDoctor()">Добавить врача</button>
+        <div id="doctorResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Тест добавления услуги с автоматическим сохранением</h2>
+        <button onclick="testAddService()">Добавить услугу</button>
+        <div id="serviceResult" class="result"></div>
+    </div>
+
+    <script>
+        // Тестовые данные
+        let currentData = {
+            doctors: [],
+            services: [],
+            prices: [],
+            reviews: []
+        };
+
+        // Тест добавления врача
+        async function testAddDoctor() {
+            const resultDiv = document.getElementById('doctorResult');
+            try {
+                // Добавляем тестового врача
+                const newDoctor = {
+                    id: Date.now(),
+                    name: "Тестовый врач",
+                    specialty: "Терапевт",
+                    experience: 5,
+                    photo: "images/doctor-placeholder.jpg",
+                    education: "Медицинский университет",
+                    description: "Описание тестового врача",
+                    rating: 5,
+                    reviews_count: 0,
+                    available: true,
+                    qualifications: [],
+                    schedule: {
+                        monday: "9:00-17:00",
+                        tuesday: "9:00-17:00",
+                        wednesday: "9:00-17:00",
+                        thursday: "9:00-17:00",
+                        friday: "9:00-15:00",
+                        saturday: "выходной",
+                        sunday: "выходной"
+                    }
+                };
+
+                currentData.doctors.push(newDoctor);
+                
+                // Сохраняем данные врача
+                const response = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        filename: 'doctors.json',
+                        data: currentData.doctors
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save doctors data');
+                }
+                
+                resultDiv.innerHTML = 'Врач успешно добавлен и сохранен';
+                resultDiv.className = 'result success';
+            } catch (error) {
+                resultDiv.innerHTML = `Ошибка добавления врача: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // Тест добавления услуги
+        async function testAddService() {
+            const resultDiv = document.getElementById('serviceResult');
+            try {
+                // Добавляем тестовую услугу
+                const newService = {
+                    id: Date.now(),
+                    name: "Тестовая услуга",
+                    description: "Описание тестовой услуги",
+                    icon: "fas fa-stethoscope",
+                    price: "300",
+                    category: "consultation",
+                    duration: "30 мин",
+                    available: true
+                };
+
+                currentData.services.push(newService);
+                
+                // Сохраняем данные услуги
+                const response = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        filename: 'services.json',
+                        data: currentData.services
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save services data');
+                }
+                
+                resultDiv.innerHTML = 'Услуга успешно добавлена и сохранена';
+                resultDiv.className = 'result success';
+            } catch (error) {
+                resultDiv.innerHTML = `Ошибка добавления услуги: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html>
