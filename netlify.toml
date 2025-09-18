@@ -1,0 +1,31 @@
+[build]
+  functions = "netlify/functions"
+  publish = "."
+
+[[redirects]]
+  from = "/api/save-data"
+  to = "/.netlify/functions/save-data"
+  status = 200
+
+[[redirects]]
+  from = "/api/load-data"
+  to = "/.netlify/functions/load-data"
+  status = 200
+
+[[redirects]]
+  from = "/api/init"
+  to = "/.netlify/functions/init"
+  status = 200
+
+# Redirects for SPA
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/:splat"
+  status = 200
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Headers = "Content-Type"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
