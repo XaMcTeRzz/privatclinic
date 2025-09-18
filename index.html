@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Перша приватна лікарня - Головна</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="js/news-slider.js"></script>
+</head>
+<body>
+    <!-- Хедер -->
+    <header class="header">
+        <div class="container">
+            <div class="header-top">
+                <div class="contact-info">
+                    <span><i class="fas fa-phone"></i> +38 (044) 495-2-495</span>
+                    <span><i class="fas fa-envelope"></i> info@medical-center.ua</span>
+                </div>
+                <div class="language-selector">
+                    <span class="active">UA</span>
+                    <span>RU</span>
+                    <span>EN</span>
+                </div>
+            </div>
+            <nav class="header-nav">
+                <a href="index.html" class="logo">
+                    <div class="logo-img">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <span class="logo-text">Перша приватна лікарня</span>
+                </a>
+                
+                <!-- Поиск -->
+                <div class="header-search">
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Пошук" class="search-input">
+                    </div>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="active">Головна</a></li>
+                    <li><a href="doctors.html">Лікарі</a></li>
+                    <li><a href="services.html">Послуги</a></li>
+                    <li><a href="prices.html">Ціни</a></li>
+                    <li><a href="about.html">Про нас</a></li>
+                    <li><a href="contacts.html">Контакти</a></li>
+                </ul>
+                
+                <div class="header-actions">
+                    <div class="header-phone">
+                        <i class="fas fa-phone"></i>
+                        <span>(044) 49...</span>
+                        <div class="phone-badge">🔴</div>
+                    </div>
+                    <div class="emergency-btn">
+                        <span class="emergency-number">5288</span>
+                        <span class="emergency-text">Невідкладна</span>
+                    </div>
+                    <div class="mobile-menu-toggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Слайдер новостей -->
+    <section class="news-slider-section">
+        <div class="container">
+            <div class="news-slider" id="newsSlider">
+                <div class="news-slides-container" id="newsContainer">
+                    <div class="news-slide">
+                        <div class="news-content">
+                            <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80')"></div>
+                            <div class="news-text">
+                                <span class="news-badge">🆕 Новость</span>
+                                <h3>Открылось новое отделение кардиологии</h3>
+                                <p>С современным оборудованием и опытными специалистами</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news-slide">
+                        <div class="news-content">
+                            <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80')"></div>
+                            <div class="news-text">
+                                <span class="news-badge">📅 Акція</span>
+                                <h3>Безкоштовні консультації</h3>
+                                <p>Кожного вівторка з 9:00 до 12:00 для пенсіонерів</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news-slide">
+                        <div class="news-content">
+                            <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80')"></div>
+                            <div class="news-text">
+                                <span class="news-badge">🔬 Послуга</span>
+                                <h3>Нові види лабораторних аналізів</h3>
+                                <p>Розширили список доступних досліджень</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news-slide">
+                        <div class="news-content">
+                            <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80')"></div>
+                            <div class="news-text">
+                                <span class="news-badge">🏆 Досягнення</span>
+                                <h3>Отримали сертифікат якості ISO 9001</h3>
+                                <p>Міжнародна сертифікація системи менеджменту</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news-slide">
+                        <div class="news-content">
+                            <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80')"></div>
+                            <div class="news-text">
+                                <span class="news-badge">👨‍⚕️ Лікар</span>
+                                <h3>Новий спеціаліст з неврології</h3>
+                                <p>Доктор Петренко Олексій Олександрович</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news-slide">
+                        <div class="news-content">
+                            <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1584515933487-779824d29309?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80')"></div>
+                            <div class="news-text">
+                                <span class="news-badge">📊 Статистика</span>
+                                <h3>Помогли более 5000 пациентов</h3>
+                                <p>В этом году наша клиника оказала помощь рекордному количеству пациентов</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="news-controls">
+                <div class="news-indicators" id="newsIndicators">
+                    <!-- Индикаторы будут добавлены через JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Главный слайдер -->
+    <section class="hero-slider">
+        <div class="slide active">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <span class="hero-badge">🏆 Краща медична клініка 2024</span>
+                        <h1>Повний комплекс медичних послуг</h1>
+                        <p>Професійна медична допомога на найвищому рівні. Досвідчені лікарі, сучасне обладнання, індивідуальний підхід.</p>
+                        <div class="hero-actions">
+                            <button class="btn btn-hero-primary">Записатися на прийом</button>
+                            <button class="btn btn-hero-secondary">Консультація онлайн</button>
+                        </div>
+                    </div>
+                    <div class="hero-widget">
+                        <div class="widget-card">
+                            <div class="widget-header">
+                                <div class="widget-icon">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                                <h3>Ви допомагаєте — ми лікуємо!</h3>
+                            </div>
+                            <div class="widget-content">
+                                <p>Здорові та поранені українці можуть обміркувати заявки вам на допомогу!</p>
+                                <div class="widget-images">
+                                    <div class="patient-photo"></div>
+                                    <div class="patient-photo"></div>
+                                    <div class="patient-photo"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Быстрая запись -->
+    <section class="quick-booking">
+        <div class="container">
+            <div class="booking-form">
+                <h3>Швидкий запис</h3>
+                <form id="quickBookingForm">
+                    <div class="form-group">
+                        <select name="service" required>
+                            <option value="">Оберіть послугу</option>
+                            <option value="consultation">Консультація</option>
+                            <option value="diagnostics">Діагностика</option>
+                            <option value="analysis">Аналізи</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="doctor" required>
+                            <option value="">Оберіть лікаря</option>
+                            <option value="petrov">Петров И.И.</option>
+                            <option value="ivanova">Иванова М.С.</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" name="phone" placeholder="Телефон" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Записатися</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Наши услуги -->
+    <section class="services-section">
+        <div class="container">
+            <h2>Наші послуги</h2>
+            <div class="services-grid" id="servicesGrid">
+                <!-- Услуги будут загружены из JSON -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Наши врачи -->
+    <section class="doctors-section">
+        <div class="container">
+            <h2>Наші лікарі</h2>
+            <div class="doctors-grid" id="doctorsGrid">
+                <!-- Врачи будут загружены из JSON -->
+            </div>
+            <div class="section-footer">
+                <a href="doctors.html" class="btn btn-outline">Усі лікарі</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Статистика -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Мультипрофільні сучасні</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">Лікарів турбуються щоденно</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3000+</div>
+                    <div class="stat-label">Медичних послуг для вас</div>
+                </div>
+                <div class="stat-item emergency">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Невідкладна</div>
+                    <div class="emergency-info">
+                        <div class="emergency-number">5288</div>
+                        <div class="emergency-text">Здавайте коли зручно</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+                <div class="stat-item emergency">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Невідкладна</div>
+                    <div class="emergency-info">
+                        <div class="emergency-number">5288</div>
+                        <div class="emergency-text">Здавайте коли зручно</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Отзывы -->
+    <section class="reviews-section">
+        <div class="container">
+            <h2>Відгуки пацієнтів</h2>
+            <div class="reviews-slider" id="reviewsSlider">
+                <!-- Отзывы будут загружены из JSON -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Контакти</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> вул. Прикладна, 123, Київ</p>
+                    <p><i class="fas fa-phone"></i> +38 (044) 495-2-495</p>
+                    <p><i class="fas fa-envelope"></i> info@medical-center.ua</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Режим роботи</h4>
+                    <p>Пн-Пт: 8:00 - 20:00</p>
+                    <p>Сб-Нд: 9:00 - 18:00</p>
+                    <p>Невідкладна допомога: 24/7</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Соціальні мережі</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Медичний центр. Усі права захищені.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/news-slider.js"></script>
+</body>
+</html>

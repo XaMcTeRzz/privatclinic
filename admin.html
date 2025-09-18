@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель администратора - Медицинский центр</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Хедер админки -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="admin-nav">
+                <div class="admin-logo">
+                    <i class="fas fa-hospital"></i>
+                    <span>Админ-панель</span>
+                </div>
+                <div class="admin-actions">
+                    <a href="index.html" class="btn btn-outline" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Просмотр сайта
+                    </a>
+                    <button class="btn btn-secondary" onclick="saveAllData()">
+                        <i class="fas fa-save"></i> Сохранить все
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="admin-main">
+        <div class="container">
+            <div class="admin-layout">
+                <!-- Боковое меню -->
+                <aside class="admin-sidebar">
+                    <nav class="admin-menu">
+                        <ul>
+                            <li>
+                                <a href="#doctors-section" class="menu-item active" data-section="doctors">
+                                    <i class="fas fa-user-md"></i>
+                                    <span>Врачи</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#services-section" class="menu-item" data-section="services">
+                                    <i class="fas fa-stethoscope"></i>
+                                    <span>Услуги</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#prices-section" class="menu-item" data-section="prices">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    <span>Цены</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#reviews-section" class="menu-item" data-section="reviews">
+                                    <i class="fas fa-star"></i>
+                                    <span>Отзывы</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#settings-section" class="menu-item" data-section="settings">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Настройки</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <!-- Контентная область -->
+                <div class="admin-content">
+                    <!-- Секция врачей -->
+                    <section id="doctors-section" class="content-section active">
+                        <div class="section-header">
+                            <h2>Управление врачами</h2>
+                            <button class="btn btn-primary" onclick="addNewDoctor()">
+                                <i class="fas fa-plus"></i> Добавить врача
+                            </button>
+                        </div>
+                        <div class="doctors-list" id="doctorsList">
+                            <!-- Врачи будут загружены динамически -->
+                        </div>
+                    </section>
+
+                    <!-- Секция услуг -->
+                    <section id="services-section" class="content-section">
+                        <div class="section-header">
+                            <h2>Управление услугами</h2>
+                            <button class="btn btn-primary" onclick="addNewService()">
+                                <i class="fas fa-plus"></i> Добавить услугу
+                            </button>
+                        </div>
+                        <div class="services-list" id="servicesList">
+                            <!-- Услуги будут загружены динамически -->
+                        </div>
+                    </section>
+
+                    <!-- Секция цен -->
+                    <section id="prices-section" class="content-section">
+                        <div class="section-header">
+                            <h2>Управление ценами</h2>
+                            <button class="btn btn-primary" onclick="addNewPriceCategory()">
+                                <i class="fas fa-plus"></i> Добавить категорию
+                            </button>
+                        </div>
+                        <div class="prices-list" id="pricesList">
+                            <!-- Цены будут загружены динамически -->
+                        </div>
+                    </section>
+
+                    <!-- Секция отзывов -->
+                    <section id="reviews-section" class="content-section">
+                        <div class="section-header">
+                            <h2>Управление отзывами</h2>
+                            <button class="btn btn-primary" onclick="addNewReview()">
+                                <i class="fas fa-plus"></i> Добавить отзыв
+                            </button>
+                        </div>
+                        <div class="reviews-list" id="reviewsList">
+                            <!-- Отзывы будут загружены динамически -->
+                        </div>
+                    </section>
+
+                    <!-- Секция настроек -->
+                    <section id="settings-section" class="content-section">
+                        <div class="section-header">
+                            <h2>Настройки сайта</h2>
+                        </div>
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <label>Название медицинского центра:</label>
+                                <input type="text" id="siteName" value="МедЦентр">
+                            </div>
+                            <div class="form-group">
+                                <label>Телефон:</label>
+                                <input type="tel" id="sitePhone" value="+38 (044) 495-2-495">
+                            </div>
+                            <div class="form-group">
+                                <label>Email:</label>
+                                <input type="email" id="siteEmail" value="info@medical-center.ua">
+                            </div>
+                            <div class="form-group">
+                                <label>Адрес:</label>
+                                <input type="text" id="siteAddress" value="ул. Примерная, 123, Киев">
+                            </div>
+                            <div class="form-group">
+                                <label>Режим работы:</label>
+                                <textarea id="workingHours">Пн-Пт: 8:00 - 20:00
+Сб-Вс: 9:00 - 18:00
+Экстренная помощь: 24/7</textarea>
+                            </div>
+                            <button class="btn btn-primary" onclick="saveSettings()">
+                                <i class="fas fa-save"></i> Сохранить настройки
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Модальное окно для редактирования врача -->
+    <div id="doctorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Редактирование врача</h3>
+            <form id="doctorForm">
+                <div class="form-group">
+                    <label>ФИО:</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Специальность:</label>
+                    <input type="text" name="specialty" required>
+                </div>
+                <div class="form-group">
+                    <label>Опыт работы (лет):</label>
+                    <input type="number" name="experience" required>
+                </div>
+                <div class="form-group">
+                    <label>Фото (URL):</label>
+                    <input type="url" name="photo">
+                </div>
+                <div class="form-group">
+                    <label>Образование:</label>
+                    <input type="text" name="education">
+                </div>
+                <div class="form-group">
+                    <label>Описание:</label>
+                    <textarea name="description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Рейтинг:</label>
+                    <input type="number" name="rating" min="1" max="5" step="0.1">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeDoctorModal()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно для редактирования услуги -->
+    <div id="serviceModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Редактирование услуги</h3>
+            <form id="serviceForm">
+                <div class="form-group">
+                    <label>Название:</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Описание:</label>
+                    <textarea name="description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Иконка (Font Awesome класс):</label>
+                    <input type="text" name="icon" placeholder="fas fa-stethoscope">
+                </div>
+                <div class="form-group">
+                    <label>Цена:</label>
+                    <input type="number" name="price" required>
+                </div>
+                <div class="form-group">
+                    <label>Категория:</label>
+                    <select name="category" required>
+                        <option value="consultation">Консультация</option>
+                        <option value="diagnostics">Диагностика</option>
+                        <option value="specialist">Специалист</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Длительность:</label>
+                    <input type="text" name="duration" placeholder="30 мин">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeServiceModal()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Уведомления -->
+    <div id="notifications"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

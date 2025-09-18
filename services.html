@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наши услуги - Медицинский центр</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/services.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Хедер -->
+    <header class="header">
+        <div class="container">
+            <div class="header-top">
+                <div class="contact-info">
+                    <span><i class="fas fa-phone"></i> +38 (044) 495-2-495</span>
+                    <span><i class="fas fa-envelope"></i> info@medical-center.ua</span>
+                </div>
+                <div class="language-selector">
+                    <span class="active">UA</span>
+                    <span>RU</span>
+                    <span>EN</span>
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="logo">
+                    <img src="images/logo.svg" alt="Medical Center" class="logo-img">
+                    <span class="logo-text">МедЦентр</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="doctors.html">Врачи</a></li>
+                    <li><a href="services.html" class="active">Услуги</a></li>
+                    <li><a href="prices.html">Цены</a></li>
+                    <li><a href="about.html">О нас</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                </ul>
+                <div class="header-actions">
+                    <button class="btn btn-primary">Записаться</button>
+                    <div class="mobile-menu-toggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Заголовок страницы -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Наши услуги</h1>
+            <p>Полный спектр медицинских услуг с применением современного оборудования и передовых методик лечения</p>
+        </div>
+    </section>
+
+    <!-- Категории услуг -->
+    <section class="categories-section">
+        <div class="container">
+            <div class="categories-tabs">
+                <button class="tab-btn active" data-category="all">Все услуги</button>
+                <button class="tab-btn" data-category="consultation">Консультации</button>
+                <button class="tab-btn" data-category="diagnostics">Диагностика</button>
+                <button class="tab-btn" data-category="specialist">Специалисты</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Поиск и фильтры -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-bar">
+                <div class="search-input-group">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="serviceSearch" placeholder="Поиск услуг...">
+                </div>
+                <div class="sort-group">
+                    <label>Сортировка:</label>
+                    <select id="sortServices">
+                        <option value="name">По названию</option>
+                        <option value="price-low">По цене (возрастание)</option>
+                        <option value="price-high">По цене (убывание)</option>
+                        <option value="duration">По времени</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Список услуг -->
+    <section class="services-listing">
+        <div class="container">
+            <div class="services-grid" id="servicesGrid">
+                <!-- Услуги будут загружены динамически -->
+            </div>
+            <div id="noResults" class="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                <p>Услуги не найдены. Попробуйте изменить параметры поиска.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Преимущества наших услуг -->
+    <section class="advantages-section">
+        <div class="container">
+            <h2>Почему выбирают нас</h2>
+            <div class="advantages-grid">
+                <div class="advantage-item">
+                    <div class="advantage-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Высокое качество</h3>
+                    <p>Все услуги оказываются с использованием современного оборудования и по международным стандартам</p>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Быстрое обслуживание</h3>
+                    <p>Минимальное время ожидания и оперативное получение результатов</p>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3>Опытные врачи</h3>
+                    <p>Наша команда состоит из квалифицированных специалистов с многолетним опытом</p>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Безопасность</h3>
+                    <p>Соблюдение всех норм безопасности и санитарных требований</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Модальное окно записи на услугу -->
+    <div id="serviceModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Запись на услугу</h3>
+            <div id="selectedService"></div>
+            <form id="serviceBookingForm">
+                <div class="form-group">
+                    <label>Ваше имя:</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Телефон:</label>
+                    <input type="tel" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label>Предпочитаемая дата:</label>
+                    <input type="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label>Предпочитаемое время:</label>
+                    <select name="time" required>
+                        <option value="">Выберите время</option>
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="12:00">12:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="17:00">17:00</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Комментарий:</label>
+                    <textarea name="comment" placeholder="Дополнительная информация или пожелания"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Записаться</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> ул. Примерная, 123, Киев</p>
+                    <p><i class="fas fa-phone"></i> +38 (044) 495-2-495</p>
+                    <p><i class="fas fa-envelope"></i> info@medical-center.ua</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Режим работы</h4>
+                    <p>Пн-Пт: 8:00 - 20:00</p>
+                    <p>Сб-Вс: 9:00 - 18:00</p>
+                    <p>Экстренная помощь: 24/7</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Социальные сети</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Медицинский центр. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/services.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "name": "Терапія",
+    "description": "Загальна терапевтична допомога та консультації",
+    "icon": "fas fa-stethoscope",
+    "price": "500",
+    "category": "consultation",
+    "duration": "30 хв",
+    "available": true
+  },
+  {
+    "id": 2,
+    "name": "Кардіологія", 
+    "description": "Діагностика та лікування захворювань серця",
+    "icon": "fas fa-heartbeat",
+    "price": "800",
+    "category": "specialist",
+    "duration": "45 хв",
+    "available": true
+  },
+  {
+    "id": 3,
+    "name": "Неврологія",
+    "description": "Лікування захворювань нервової системи",
+    "icon": "fas fa-brain", 
+    "price": "700",
+    "category": "specialist",
+    "duration": "40 хв",
+    "available": true
+  },
+  {
+    "id": 4,
+    "name": "Педіатрія",
+    "description": "Медична допомога дітям та підліткам",
+    "icon": "fas fa-baby",
+    "price": "600",
+    "category": "consultation",
+    "duration": "30 хв",
+    "available": true
+  },
+  {
+    "id": 5,
+    "name": "Гінекологія",
+    "description": "Жіноче здоров'я та репродуктивна медицина",
+    "icon": "fas fa-female",
+    "price": "650",
+    "category": "specialist",
+    "duration": "35 хв",
+    "available": true
+  },
+  {
+    "id": 6,
+    "name": "Дерматологія",
+    "description": "Діагностика та лікування шкірних захворювань",
+    "icon": "fas fa-hand-paper",
+    "price": "550",
+    "category": "specialist",
+    "duration": "30 хв",
+    "available": true
+  },
+  {
+    "id": 7,
+    "name": "Ортопедія",
+    "description": "Лікування захворювань опорно-рухового апарату",
+    "icon": "fas fa-bone",
+    "price": "750",
+    "category": "specialist",
+    "duration": "45 хв",
+    "available": true
+  },
+  {
+    "id": 8,
+    "name": "Лабораторні аналізи",
+    "description": "Повний спектр лабораторної діагностики",
+    "icon": "fas fa-vial",
+    "price": "200",
+    "category": "diagnostics",
+    "duration": "15 хв",
+    "available": true
+  },
+  {
+    "id": 9,
+    "name": "УЗД діагностика",
+    "description": "Ультразвукове дослідження органів",
+    "icon": "fas fa-search",
+    "price": "400",
+    "category": "diagnostics", 
+    "duration": "25 хв",
+    "available": true
+  },
+  {
+    "id": 10,
+    "name": "Рентгенографія",
+    "description": "Рентгенологічне дослідження",
+    "icon": "fas fa-x-ray",
+    "price": "300",
+    "category": "diagnostics",
+    "duration": "20 хв",
+    "available": true
+  }
+]

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наши врачи - Медицинский центр</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/doctors.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Хедер -->
+    <header class="header">
+        <div class="container">
+            <div class="header-top">
+                <div class="contact-info">
+                    <span><i class="fas fa-phone"></i> +38 (044) 495-2-495</span>
+                    <span><i class="fas fa-envelope"></i> info@medical-center.ua</span>
+                </div>
+                <div class="language-selector">
+                    <span class="active">UA</span>
+                    <span>RU</span>
+                    <span>EN</span>
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="logo">
+                    <img src="images/logo.svg" alt="Medical Center" class="logo-img">
+                    <span class="logo-text">МедЦентр</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="doctors.html" class="active">Врачи</a></li>
+                    <li><a href="services.html">Услуги</a></li>
+                    <li><a href="prices.html">Цены</a></li>
+                    <li><a href="about.html">О нас</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                </ul>
+                <div class="header-actions">
+                    <button class="btn btn-primary">Записаться</button>
+                    <div class="mobile-menu-toggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Слайдер новостей -->
+    <section class="news-slider-section">
+        <div class="container">
+            <div class="news-slider" id="newsSlider">
+                <div class="news-slide active">
+                    <div class="news-content">
+                        <span class="news-badge">👨‍⚕️ Врачи</span>
+                        <h3>Новые специалисты в нашей команде</h3>
+                        <p>Пополнение в отделе кардиологии и неврологии</p>
+                    </div>
+                    <div class="news-date">15 сентября 2024</div>
+                </div>
+                <div class="news-slide">
+                    <div class="news-content">
+                        <span class="news-badge">📅 Запись</span>
+                        <h3>Онлайн запись к врачам</h3>
+                        <p>Теперь можно записаться к любому специалисту онлайн</p>
+                    </div>
+                    <div class="news-date">12 сентября 2024</div>
+                </div>
+                <div class="news-slide">
+                    <div class="news-content">
+                        <span class="news-badge">🏆 Качество</span>
+                        <h3>Повышение квалификации врачей</h3>
+                        <p>Наши специалисты прошли обучение по новым методам</p>
+                    </div>
+                    <div class="news-date">8 сентября 2024</div>
+                </div>
+            </div>
+            <div class="news-controls">
+                <button class="news-prev" onclick="changeNewsSlide(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="news-indicators" id="newsIndicators">
+                </div>
+                <button class="news-next" onclick="changeNewsSlide(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Заголовок страницы -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Наши врачи</h1>
+            <p>Опытные специалисты с многолетней практикой и современным подходом к лечению</p>
+        </div>
+    </section>
+
+    <!-- Фильтры -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Специальность:</label>
+                    <select id="specialtyFilter">
+                        <option value="">Все специальности</option>
+                        <option value="Терапевт">Терапевт</option>
+                        <option value="Кардиолог">Кардиолог</option>
+                        <option value="Невролог">Невролог</option>
+                        <option value="Педиатр">Педиатр</option>
+                        <option value="Гинеколог">Гинеколог</option>
+                        <option value="Дерматолог">Дерматолог</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Поиск по имени:</label>
+                    <input type="text" id="nameSearch" placeholder="Введите имя врача">
+                </div>
+                <div class="filter-group">
+                    <label>Опыт работы:</label>
+                    <select id="experienceFilter">
+                        <option value="">Любой опыт</option>
+                        <option value="5-10">5-10 лет</option>
+                        <option value="10-15">10-15 лет</option>
+                        <option value="15+">Более 15 лет</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" id="resetFilters">Сбросить</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Список врачей -->
+    <section class="doctors-listing">
+        <div class="container">
+            <div class="doctors-grid" id="doctorsGrid">
+                <!-- Врачи будут загружены динамически -->
+            </div>
+            <div id="noResults" class="no-results" style="display: none;">
+                <p>По вашему запросу врачи не найдены. Попробуйте изменить параметры поиска.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Модальное окно записи -->
+    <div id="appointmentModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Запись к врачу</h3>
+            <div id="selectedDoctor"></div>
+            <form id="appointmentForm">
+                <div class="form-group">
+                    <label>Ваше имя:</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Телефон:</label>
+                    <input type="tel" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label>Дата приема:</label>
+                    <input type="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label>Время:</label>
+                    <select name="time" required>
+                        <option value="">Выберите время</option>
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="12:00">12:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="17:00">17:00</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Комментарий:</label>
+                    <textarea name="comment" placeholder="Опишите ваши жалобы или вопросы"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Записаться</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> ул. Примерная, 123, Киев</p>
+                    <p><i class="fas fa-phone"></i> +38 (044) 495-2-495</p>
+                    <p><i class="fas fa-envelope"></i> info@medical-center.ua</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Режим работы</h4>
+                    <p>Пн-Пт: 8:00 - 20:00</p>
+                    <p>Сб-Вс: 9:00 - 18:00</p>
+                    <p>Экстренная помощь: 24/7</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Социальные сети</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Медицинский центр. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/doctors.js"></script>
+</body>
+</html>
