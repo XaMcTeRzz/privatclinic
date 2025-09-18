@@ -43,6 +43,17 @@ exports.handler = async (event, context) => {
     const filename = urlParams.get('filename');
     
     // Проверяем, что filename безопасен
+    if (!filename) {
+      return {
+        statusCode: 400,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({ error: 'Filename is required' })
+      };
+    }
+    
     const safeFilename = path.basename(filename);
     if (!safeFilename || !safeFilename.endsWith('.json')) {
       return {
@@ -78,7 +89,7 @@ exports.handler = async (event, context) => {
     }
     
     // Читаем данные с правильной кодировкой
-    const data = fs.readFileSync(filePath, 'utf8');
+    const data = fs.readFileSync(filePath, { encoding: 'utf8' });
     
     // Проверяем, является ли содержимое допустимым JSON
     try {

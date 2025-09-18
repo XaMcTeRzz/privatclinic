@@ -16,7 +16,7 @@ async function initializeServicesPage() {
 // Загрузка данных услуг
 async function loadServices() {
     try {
-        const response = await fetch('data/services.json');
+        const response = await fetch('/api/load-data?filename=services.json');
         allServices = await response.json();
         renderServices(allServices);
     } catch (error) {

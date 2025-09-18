@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель - Управление сайтом</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Боковое меню -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>⚙️ Админ-панель</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" data-section="dashboard">
+                        <i>📊</i> Дашборд
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="slider">
+                        <i>🖼️</i> Слайдер
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="services">
+                        <i>⚕️</i> Услуги
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="doctors">
+                        <i>👨‍⚕️</i> Врачи
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="news">
+                        <i>📰</i> Новости
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="reviews">
+                        <i>⭐</i> Отзывы
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="prices">
+                        <i>💰</i> Цены
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="settings">
+                        <i>⚙️</i> Настройки
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Основной контент -->
+        <div class="main-content">
+            <div class="top-bar">
+                <h1>Панель управления сайтом</h1>
+                <button class="logout-btn" id="logoutBtn">
+                    <i>🚪</i> Выйти
+                </button>
+            </div>
+
+            <!-- Сообщение об успехе -->
+            <div class="success-message" id="successMessage">
+                ✅ Изменения успешно сохранены!
+            </div>
+
+            <!-- Дашборд (главная страница) -->
+            <div class="content-section active" id="dashboard-section">
+                <div class="welcome-section">
+                    <h2>👋 Добро пожаловать в админ-панель!</h2>
+                    <p>Здесь вы можете управлять всем контентом вашего медицинского сайта. Выберите раздел в меню слева для редактирования соответствующего контента.</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="icon">⚕️</div>
+                            <div class="number" id="servicesCount">0</div>
+                            <div class="label">Услуг</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon">👨‍⚕️</div>
+                            <div class="number" id="doctorsCount">0</div>
+                            <div class="label">Врачей</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon">🖼️</div>
+                            <div class="number" id="slidesCount">0</div>
+                            <div class="label">Слайдов</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon">📰</div>
+                            <div class="number" id="newsCount">0</div>
+                            <div class="label">Новостей</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Слайдер -->
+            <div class="content-section" id="slider-section">
+                <div class="section-header">
+                    <h2>🖼️ Управление слайдером</h2>
+                </div>
+                <div class="cards-container" id="slidesContainer"></div>
+                <button class="add-button" onclick="addNewSlide()">
+                    <i>➕</i> Добавить слайд
+                </button>
+            </div>
+
+            <!-- Услуги -->
+            <div class="content-section" id="services-section">
+                <div class="section-header">
+                    <h2>⚕️ Управление услугами</h2>
+                </div>
+                <div class="cards-container" id="servicesContainer"></div>
+                <button class="add-button" onclick="addNewService()">
+                    <i>➕</i> Добавить услугу
+                </button>
+            </div>
+
+            <!-- Врачи -->
+            <div class="content-section" id="doctors-section">
+                <div class="section-header">
+                    <h2>👨‍⚕️ Управление врачами</h2>
+                </div>
+                <div class="cards-container" id="doctorsContainer"></div>
+                <button class="add-button" onclick="addNewDoctor()">
+                    <i>➕</i> Добавить врача
+                </button>
+            </div>
+
+            <!-- Новости -->
+            <div class="content-section" id="news-section">
+                <div class="section-header">
+                    <h2>📰 Управление новостями</h2>
+                </div>
+                <div class="cards-container" id="newsContainer"></div>
+                <button class="add-button" onclick="addNewNews()">
+                    <i>➕</i> Добавить новость
+                </button>
+            </div>
+
+            <!-- Отзывы -->
+            <div class="content-section" id="reviews-section">
+                <div class="section-header">
+                    <h2>⭐ Управление отзывами</h2>
+                </div>
+                <div class="cards-container" id="reviewsContainer"></div>
+                <button class="add-button" onclick="addNewReview()">
+                    <i>➕</i> Добавить отзыв
+                </button>
+            </div>
+
+            <!-- Цены -->
+            <div class="content-section" id="prices-section">
+                <div class="section-header">
+                    <h2>💰 Управление ценами</h2>
+                </div>
+                <div class="cards-container" id="pricesContainer"></div>
+                <button class="add-button" onclick="addNewPrice()">
+                    <i>➕</i> Добавить позицию
+                </button>
+            </div>
+
+            <!-- Настройки -->
+            <div class="content-section" id="settings-section">
+                <div class="section-header">
+                    <h2>⚙️ Настройки сайта</h2>
+                </div>
+                <div class="cards-container" id="settingsContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="fixed-admin-panel.js"></script>
+    <script>
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            // Проверка авторизации
+            if (!localStorage.getItem('adminAuthenticated')) {
+                window.location.href = 'login.html';
+            }
+
+            // Выход из системы
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                localStorage.removeItem('adminAuthenticated');
+                window.location.href = 'login.html';
+            });
+
+            // Навигация по разделам
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Убираем активный класс у всех ссылок
+                    document.querySelectorAll('.nav-link').forEach(l => {
+                        l.classList.remove('active');
+                    });
+                    
+                    // Добавляем активный класс текущей ссылке
+                    this.classList.add('active');
+                    
+                    // Скрываем все секции
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Показываем выбранную секцию
+                    const sectionId = this.getAttribute('data-section') + '-section';
+                    document.getElementById(sectionId).classList.add('active');
+                    
+                    // Загружаем данные для выбранной секции
+                    loadSectionData(this.getAttribute('data-section'));
+                });
+            });
+
+            // Загрузка данных дашборда
+            loadDashboardData();
+        });
+    </script>
+</body>
+</html>

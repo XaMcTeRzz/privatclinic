@@ -70,7 +70,7 @@ exports.handler = async (event, context) => {
     
     // Сохраняем данные с правильной кодировкой
     const jsonData = JSON.stringify(data, null, 2);
-    fs.writeFileSync(filePath, jsonData, 'utf8');
+    fs.writeFileSync(filePath, jsonData, { encoding: 'utf8' });
     
     return {
       statusCode: 200,

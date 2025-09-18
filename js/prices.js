@@ -14,7 +14,7 @@ async function initializePricesPage() {
 // Загрузка данных цен
 async function loadPrices() {
     try {
-        const response = await fetch('data/prices.json');
+        const response = await fetch('/api/load-data?filename=prices.json');
         allPrices = await response.json();
         renderPrices(allPrices);
     } catch (error) {

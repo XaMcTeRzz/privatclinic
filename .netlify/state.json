@@ -1,0 +1,14 @@
+{
+	"geolocation": {
+		"data": {
+			"country": {
+				"code": "UA",
+				"name": "Ukraine"
+			},
+			"timezone": "Europe/Kyiv",
+			"latitude": 50.4522,
+			"longitude": 30.5287
+		},
+		"timestamp": 1758217531029
+	}
+}

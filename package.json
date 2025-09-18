@@ -1,0 +1,23 @@
+{
+  "name": "medical-site-admin",
+  "version": "1.0.0",
+  "description": "Admin panel for medical website",
+  "main": "index.js",
+  "scripts": {
+    "init-data": "node scripts/init-data.js",
+    "start": "python -m http.server 8000",
+    "build": "echo 'No build required for static site'",
+    "deploy": "node deploy-netlify.js",
+    "deploy-netlify": "node deploy-netlify.js"
+  },
+  "keywords": [
+    "medical",
+    "admin",
+    "static-site"
+  ],
+  "author": "Medical Site Team",
+  "license": "MIT",
+  "dependencies": {
+    "netlify-cli": "^17.0.0"
+  }
+}

@@ -8,35 +8,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Инициализация сайта
 function initializeWebsite() {
-    loadContent();
+    loadAllData();
     initializeSlider();
     initializeForms();
     initializeMobileMenu();
     initializeScrollEffects();
 }
 
-// Загрузка контента из JSON файлов
-async function loadContent() {
+// Загрузка всех данных для главной страницы
+async function loadAllData() {
     try {
-        // Загружаем услуги
-        const servicesResponse = await fetch('data/services.json');
+        // Загружаем услуги через API
+        const servicesResponse = await fetch('/api/load-data?filename=services.json');
         const services = await servicesResponse.json();
         renderServices(services.slice(0, 6)); // Показываем только первые 6
 
-        // Загружаем врачей
-        const doctorsResponse = await fetch('data/doctors.json');
+        // Загружаем врачей через API
+        const doctorsResponse = await fetch('/api/load-data?filename=doctors.json');
         const doctors = await doctorsResponse.json();
         renderDoctors(doctors.slice(0, 4)); // Показываем только первых 4
 
-        // Загружаем отзывы
-        const reviewsResponse = await fetch('data/reviews.json');
+        // Загружаем отзывы через API
+        const reviewsResponse = await fetch('/api/load-data?filename=reviews.json');
         const reviews = await reviewsResponse.json();
         renderReviews(reviews);
 
-        // Загружаем новости для слайдера
-        await loadNewsContent();
-
-        // Загружаем новости для слайдера
+        // Загружаем новости для слайдера через API
         await loadNewsContent();
 
     } catch (error) {
@@ -735,7 +732,7 @@ window.addEventListener('beforeunload', function() {
 // Загрузка новостей для слайдера
 async function loadNewsContent() {
     try {
-        const newsResponse = await fetch('data/news.json');
+        const newsResponse = await fetch('/api/load-data?filename=news.json');
         const news = await newsResponse.json();
         const activeNews = news.filter(item => item.active);
         

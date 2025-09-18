@@ -12,19 +12,19 @@ let newsData = []; // данные новостей
 // Загрузка данных новостей
 async function loadNewsData() {
     try {
-        // Пытаемся загрузить из localStorage (админка)
+        // Пытаемся загрузить сохраненные данные из localStorage
         const savedData = localStorage.getItem('newsData');
         if (savedData) {
             newsData = JSON.parse(savedData);
-            console.log('Загружены данные из админки:', newsData);
+            console.log('Загружены данные из localStorage:', newsData);
             return;
         }
         
-        // Если нет сохраненных данных, загружаем из JSON файла
-        const response = await fetch('data/news.json');
+        // Если нет сохраненных данных, загружаем через API
+        const response = await fetch('/api/load-data?filename=news.json');
         if (response.ok) {
             newsData = await response.json();
-            console.log('Загружены данные из JSON:', newsData);
+            console.log('Загружены данные из API:', newsData);
         } else {
             throw new Error('Файл не найден');
         }

@@ -21,29 +21,46 @@ async function initializeAdmin() {
     renderAllSections();
 }
 
-// Загрузка всех данных
+// Загрузка всех данных для админки
 async function loadAllData() {
     try {
-        // Загружаем врачей
-        const doctorsResponse = await fetch('data/doctors.json');
-        currentData.doctors = await doctorsResponse.json();
+        // Загружаем врачей через API
+        const doctorsResponse = await fetch('/api/load-data?filename=doctors.json');
+        const doctorsData = await doctorsResponse.json();
+        renderDoctors(doctorsData);
 
-        // Загружаем услуги
-        const servicesResponse = await fetch('data/services.json');
-        currentData.services = await servicesResponse.json();
+        // Загружаем услуги через API
+        const servicesResponse = await fetch('/api/load-data?filename=services.json');
+        const servicesData = await servicesResponse.json();
+        renderServices(servicesData);
 
-        // Загружаем цены
-        const pricesResponse = await fetch('data/prices.json');
-        currentData.prices = await pricesResponse.json();
+        // Загружаем цены через API
+        const pricesResponse = await fetch('/api/load-data?filename=prices.json');
+        const pricesData = await pricesResponse.json();
+        renderPrices(pricesData);
 
-        // Загружаем отзывы
-        const reviewsResponse = await fetch('data/reviews.json');
-        currentData.reviews = await reviewsResponse.json();
+        // Загружаем отзывы через API
+        const reviewsResponse = await fetch('/api/load-data?filename=reviews.json');
+        const reviewsData = await reviewsResponse.json();
+        renderReviews(reviewsData);
+
+        // Загружаем настройки через API
+        const settingsResponse = await fetch('/api/load-data?filename=settings.json');
+        const settingsData = await settingsResponse.json();
+        loadSettings(settingsData);
 
     } catch (error) {
         console.error('Ошибка загрузки данных:', error);
-        showNotification('Ошибка загрузки данных', 'error');
     }
+}
+
+// Загрузка настроек
+function loadSettings(settings) {
+    if (settings.siteName) document.getElementById('siteName').value = settings.siteName;
+    if (settings.sitePhone) document.getElementById('sitePhone').value = settings.sitePhone;
+    if (settings.siteEmail) document.getElementById('siteEmail').value = settings.siteEmail;
+    if (settings.siteAddress) document.getElementById('siteAddress').value = settings.siteAddress;
+    if (settings.workingHours) document.getElementById('workingHours').value = settings.workingHours;
 }
 
 // Инициализация навигации
@@ -473,7 +490,7 @@ function deleteReview(id) {
 }
 
 // Сохранение настроек
-function saveSettings() {
+async function saveSettings() {
     const settings = {
         siteName: document.getElementById('siteName').value,
         sitePhone: document.getElementById('sitePhone').value,
@@ -482,30 +499,101 @@ function saveSettings() {
         workingHours: document.getElementById('workingHours').value
     };
 
-    // Здесь можно добавить сохранение настроек на сервер
-    console.log('Настройки сохранены:', settings);
-    showNotification('Настройки сохранены', 'success');
+    try {
+        const response = await fetch('/api/save-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                filename: 'settings.json',
+                data: settings
+            })
+        });
+
+        if (response.ok) {
+            showNotification('Настройки сохранены', 'success');
+        } else {
+            throw new Error('Failed to save settings');
+        }
+    } catch (error) {
+        console.error('Ошибка сохранения настроек:', error);
+        showNotification('Ошибка сохранения настроек: ' + error.message, 'error');
+    }
 }
 
 // Сохранение всех данных
-function saveAllData() {
-    // Эмуляция сохранения данных
-    const allData = {
-        doctors: currentData.doctors,
-        services: currentData.services,
-        prices: currentData.prices,
-        reviews: currentData.reviews
-    };
+async function saveAllData() {
+    try {
+        // Сохраняем данные врачей
+        const doctorsResponse = await fetch('/api/save-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                filename: 'doctors.json',
+                data: currentData.doctors
+            })
+        });
 
-    console.log('Все данные сохранены:', allData);
-    
-    // Эмуляция сохранения в JSON файлы
-    downloadJSON('doctors.json', currentData.doctors);
-    downloadJSON('services.json', currentData.services);
-    downloadJSON('prices.json', currentData.prices);
-    downloadJSON('reviews.json', currentData.reviews);
-    
-    showNotification('Все данные сохранены и готовы к скачиванию', 'success');
+        if (!doctorsResponse.ok) {
+            throw new Error('Failed to save doctors data');
+        }
+
+        // Сохраняем данные услуг
+        const servicesResponse = await fetch('/api/save-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                filename: 'services.json',
+                data: currentData.services
+            })
+        });
+
+        if (!servicesResponse.ok) {
+            throw new Error('Failed to save services data');
+        }
+
+        // Сохраняем данные цен
+        const pricesResponse = await fetch('/api/save-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                filename: 'prices.json',
+                data: currentData.prices
+            })
+        });
+
+        if (!pricesResponse.ok) {
+            throw new Error('Failed to save prices data');
+        }
+
+        // Сохраняем данные отзывов
+        const reviewsResponse = await fetch('/api/save-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                filename: 'reviews.json',
+                data: currentData.reviews
+            })
+        });
+
+        if (!reviewsResponse.ok) {
+            throw new Error('Failed to save reviews data');
+        }
+
+        showNotification('Все данные успешно сохранены', 'success');
+    } catch (error) {
+        console.error('Ошибка сохранения данных:', error);
+        showNotification('Ошибка сохранения данных: ' + error.message, 'error');
+    }
 }
 
 // Скачивание JSON файла

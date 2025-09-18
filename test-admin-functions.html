@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест функций админки</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тест функций админки</h1>
+    
+    <div class="test-section">
+        <h2>Тест загрузки данных</h2>
+        <button onclick="testLoadAllData()">Загрузить все данные</button>
+        <div id="loadResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Тест сохранения данных</h2>
+        <button onclick="testSaveAllData()">Сохранить все данные</button>
+        <div id="saveResult" class="result"></div>
+    </div>
+
+    <script>
+        // Тестовые данные
+        let currentData = {
+            doctors: [],
+            services: [],
+            prices: [],
+            reviews: []
+        };
+
+        // Тест загрузки всех данных
+        async function testLoadAllData() {
+            const resultDiv = document.getElementById('loadResult');
+            try {
+                // Загружаем врачей через API
+                const doctorsResponse = await fetch('/api/load-data?filename=doctors.json');
+                const doctorsData = await doctorsResponse.json();
+                currentData.doctors = doctorsData;
+
+                // Загружаем услуги через API
+                const servicesResponse = await fetch('/api/load-data?filename=services.json');
+                const servicesData = await servicesResponse.json();
+                currentData.services = servicesData;
+
+                // Загружаем цены через API
+                const pricesResponse = await fetch('/api/load-data?filename=prices.json');
+                const pricesData = await pricesResponse.json();
+                currentData.prices = pricesData;
+
+                // Загружаем отзывы через API
+                const reviewsResponse = await fetch('/api/load-data?filename=reviews.json');
+                const reviewsData = await reviewsResponse.json();
+                currentData.reviews = reviewsData;
+
+                resultDiv.innerHTML = `Данные успешно загружены:
+Врачи: ${doctorsData.length}
+Услуги: ${servicesData.length}
+Цены: ${pricesData.length}
+Отзывы: ${reviewsData.length}`;
+                resultDiv.className = 'result success';
+            } catch (error) {
+                resultDiv.innerHTML = `Ошибка загрузки данных: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // Тест сохранения всех данных
+        async function testSaveAllData() {
+            const resultDiv = document.getElementById('saveResult');
+            try {
+                // Добавляем тестовые данные
+                if (currentData.doctors.length === 0) {
+                    currentData.doctors = [
+                        { id: 1, name: "Тестовый врач", specialty: "Терапевт", experience: 5 }
+                    ];
+                }
+
+                if (currentData.services.length === 0) {
+                    currentData.services = [
+                        { id: 1, name: "Тестовая услуга", price: "300", category: "consultation" }
+                    ];
+                }
+
+                // Сохраняем данные врачей
+                const doctorsResponse = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        filename: 'doctors.json',
+                        data: currentData.doctors
+                    })
+                });
+
+                if (!doctorsResponse.ok) {
+                    throw new Error('Failed to save doctors data');
+                }
+
+                // Сохраняем данные услуг
+                const servicesResponse = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        filename: 'services.json',
+                        data: currentData.services
+                    })
+                });
+
+                if (!servicesResponse.ok) {
+                    throw new Error('Failed to save services data');
+                }
+
+                // Сохраняем данные цен
+                const pricesResponse = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        filename: 'prices.json',
+                        data: currentData.prices
+                    })
+                });
+
+                if (!pricesResponse.ok) {
+                    throw new Error('Failed to save prices data');
+                }
+
+                // Сохраняем данные отзывов
+                const reviewsResponse = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        filename: 'reviews.json',
+                        data: currentData.reviews
+                    })
+                });
+
+                if (!reviewsResponse.ok) {
+                    throw new Error('Failed to save reviews data');
+                }
+
+                resultDiv.innerHTML = 'Все данные успешно сохранены';
+                resultDiv.className = 'result success';
+            } catch (error) {
+                resultDiv.innerHTML = `Ошибка сохранения данных: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html>

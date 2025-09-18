@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Админ-панель</h1>
+            <nav>
+                <button onclick="goToLogin()">Выйти</button>
+            </nav>
+        </header>
+
+        <main>
+            <section class="dashboard">
+                <h2>Тестирование данных</h2>
+                <div class="test-buttons">
+                    <button onclick="testServices()">Тест услуг</button>
+                    <button onclick="testDoctors()">Тест врачей</button>
+                    <button onclick="testNews()">Тест новостей</button>
+                </div>
+                <div id="dataOutput"></div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Проверка авторизации
+        function checkAuth() {
+            if (!localStorage.getItem('adminAuthenticated')) {
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Тест загрузки услуг
+        function testServices() {
+            const output = document.getElementById('dataOutput');
+            output.innerHTML = '<p>Загрузка услуг...</p>';
+            
+            fetch('/api/load-data?filename=services.json')
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('HTTP ' + response.status);
+                    }
+                })
+                .then(data => {
+                    output.innerHTML = '<p class="success">✅ Услуги загружены: ' + data.length + ' записей</p>';
+                    console.log('Services data:', data);
+                })
+                .catch(error => {
+                    output.innerHTML = '<p class="error">❌ Ошибка загрузки услуг: ' + error.message + '</p>';
+                });
+        }
+        
+        // Тест загрузки врачей
+        function testDoctors() {
+            const output = document.getElementById('dataOutput');
+            output.innerHTML = '<p>Загрузка врачей...</p>';
+            
+            fetch('/api/load-data?filename=doctors.json')
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('HTTP ' + response.status);
+                    }
+                })
+                .then(data => {
+                    output.innerHTML = '<p class="success">✅ Врачи загружены: ' + data.length + ' записей</p>';
+                    console.log('Doctors data:', data);
+                })
+                .catch(error => {
+                    output.innerHTML = '<p class="error">❌ Ошибка загрузки врачей: ' + error.message + '</p>';
+                });
+        }
+        
+        // Тест загрузки новостей
+        function testNews() {
+            const output = document.getElementById('dataOutput');
+            output.innerHTML = '<p>Загрузка новостей...</p>';
+            
+            fetch('/api/load-data?filename=news.json')
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('HTTP ' + response.status);
+                    }
+                })
+                .then(data => {
+                    output.innerHTML = '<p class="success">✅ Новости загружены: ' + data.length + ' записей</p>';
+                    console.log('News data:', data);
+                })
+                .catch(error => {
+                    output.innerHTML = '<p class="error">❌ Ошибка загрузки новостей: ' + error.message + '</p>';
+                });
+        }
+        
+        // Навигация
+        function goToLogin() {
+            window.location.href = 'login.html';
+        }
+        
+        function goToDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+    </script>
+</body>
+</html>

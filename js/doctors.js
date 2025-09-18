@@ -18,7 +18,7 @@ async function initializeDoctorsPage() {
 // Загрузка данных врачей
 async function loadDoctors() {
     try {
-        const response = await fetch('data/doctors.json');
+        const response = await fetch('/api/load-data?filename=doctors.json');
         allDoctors = await response.json();
         renderDoctors(allDoctors);
     } catch (error) {

@@ -8,7 +8,7 @@ exports.handler = async (event, context) => {
   // Инициализируем данные только один раз
   if (!isInitialized) {
     try {
-      initNetlifyData();
+      await initNetlifyData();
       isInitialized = true;
       return {
         statusCode: 200,

@@ -22,7 +22,7 @@ function copyFileIfExists(source, target) {
 }
 
 // Основная функция инициализации
-function initNetlifyData() {
+async function initNetlifyData() {
   console.log('Начинаем инициализацию данных для Netlify...');
   
   // Создаем директорию для данных Netlify
@@ -64,11 +64,18 @@ function initNetlifyData() {
   });
   
   console.log(`Инициализация данных завершена. Скопировано файлов: ${copiedFiles}`);
+  
+  // Возвращаем Promise для правильной обработки асинхронности
+  return Promise.resolve();
 }
 
 // Запускаем инициализацию если скрипт запущен напрямую
 if (require.main === module) {
-  initNetlifyData();
+  initNetlifyData().then(() => {
+    console.log('Инициализация завершена');
+  }).catch(error => {
+    console.error('Ошибка инициализации:', error);
+  });
 }
 
 module.exports = { initNetlifyData };

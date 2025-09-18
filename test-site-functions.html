@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест функций сайта</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тест функций сайта</h1>
+    
+    <div class="test-section">
+        <h2>Тест загрузки данных для главной страницы</h2>
+        <button onclick="testLoadMainData()">Загрузить данные для главной страницы</button>
+        <div id="mainLoadResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Тест загрузки данных для страницы врачей</h2>
+        <button onclick="testLoadDoctorsData()">Загрузить данные врачей</button>
+        <div id="doctorsLoadResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Тест загрузки данных для страницы услуг</h2>
+        <button onclick="testLoadServicesData()">Загрузить данные услуг</button>
+        <div id="servicesLoadResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Тест загрузки данных для страницы цен</h2>
+        <button onclick="testLoadPricesData()">Загрузить данные цен</button>
+        <div id="pricesLoadResult" class="result"></div>
+    </div>
+
+    <script>
+        // Тест загрузки данных для главной страницы
+        async function testLoadMainData() {
+            const resultDiv = document.getElementById('mainLoadResult');
+            try {
+                // Загружаем услуги через API
+                const servicesResponse = await fetch('/api/load-data?filename=services.json');
+                const services = await servicesResponse.json();
+
+                // Загружаем врачей через API
+                const doctorsResponse = await fetch('/api/load-data?filename=doctors.json');
+                const doctors = await doctorsResponse.json();
+
+                // Загружаем отзывы через API
+                const reviewsResponse = await fetch('/api/load-data?filename=reviews.json');
+                const reviews = await reviewsResponse.json();
+
+                resultDiv.innerHTML = `Данные успешно загружены:\nУслуги: ${services.length}\nВрачи: ${doctors.length}\nОтзывы: ${reviews.length}`;
+                resultDiv.className = 'result success';
+            } catch (error) {
+                resultDiv.innerHTML = `Ошибка загрузки данных: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // Тест загрузки данных врачей
+        async function testLoadDoctorsData() {
+            const resultDiv = document.getElementById('doctorsLoadResult');
+            try {
+                const response = await fetch('/api/load-data?filename=doctors.json');
+                const doctors = await response.json();
+                
+                resultDiv.innerHTML = `Врачи успешно загружены: ${doctors.length} записей`;
+                resultDiv.className = 'result success';
+            } catch (error) {
+                resultDiv.innerHTML = `Ошибка загрузки врачей: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // Тест загрузки данных услуг
+        async function testLoadServicesData() {
+            const resultDiv = document.getElementById('servicesLoadResult');
+            try {
+                const response = await fetch('/api/load-data?filename=services.json');
+                const services = await response.json();
+                
+                resultDiv.innerHTML = `Услуги успешно загружены: ${services.length} записей`;
+                resultDiv.className = 'result success';
+            } catch (error) {
+                resultDiv.innerHTML = `Ошибка загрузки услуг: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // Тест загрузки данных цен
+        async function testLoadPricesData() {
+            const resultDiv = document.getElementById('pricesLoadResult');
+            try {
+                const response = await fetch('/api/load-data?filename=prices.json');
+                const prices = await response.json();
+                
+                resultDiv.innerHTML = `Цены успешно загружены: ${prices.length} категорий`;
+                resultDiv.className = 'result success';
+            } catch (error) {
+                resultDiv.innerHTML = `Ошибка загрузки цен: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html>

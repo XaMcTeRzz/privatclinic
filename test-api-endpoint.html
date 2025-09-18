@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тест API эндпоинтов</h1>
+    
+    <div class="test-section">
+        <h2>Тест загрузки данных</h2>
+        <button onclick="testLoadData('doctors.json')">Загрузить врачей</button>
+        <button onclick="testLoadData('services.json')">Загрузить услуги</button>
+        <button onclick="testLoadData('prices.json')">Загрузить цены</button>
+        <button onclick="testLoadData('settings.json')">Загрузить настройки</button>
+        <div id="loadResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Тест сохранения данных</h2>
+        <button onclick="testSaveData()">Сохранить тестовые данные</button>
+        <div id="saveResult" class="result"></div>
+    </div>
+
+    <script>
+        async function testLoadData(filename) {
+            const resultDiv = document.getElementById('loadResult');
+            try {
+                const response = await fetch(`/api/load-data?filename=${filename}`);
+                const data = await response.json();
+                resultDiv.innerHTML = `Файл: ${filename}\nСтатус: ${response.status}\nДанные:\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.style.color = 'green';
+            } catch (error) {
+                resultDiv.innerHTML = `Ошибка загрузки ${filename}: ${error.message}`;
+                resultDiv.style.color = 'red';
+            }
+        }
+
+        async function testSaveData() {
+            const resultDiv = document.getElementById('saveResult');
+            try {
+                const testData = [
+                    { id: 1, name: "Тестовый врач", specialty: "Терапевт" },
+                    { id: 2, name: "Второй врач", specialty: "Кардиолог" }
+                ];
+                
+                const response = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        filename: 'test-doctors.json',
+                        data: testData
+                    })
+                });
+                
+                const result = await response.json();
+                resultDiv.innerHTML = `Статус: ${response.status}\nРезультат:\n${JSON.stringify(result, null, 2)}`;
+                resultDiv.style.color = response.ok ? 'green' : 'red';
+            } catch (error) {
+                resultDiv.innerHTML = `Ошибка сохранения: ${error.message}`;
+                resultDiv.style.color = 'red';
+            }
+        }
+    </script>
+</body>
+</html>

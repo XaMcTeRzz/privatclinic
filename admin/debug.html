@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Panel</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .success { color: green; }
+        .error { color: red; }
+        button { padding: 10px 15px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Debug Panel</h1>
+    <button onclick="testDataAccess()">Проверить доступ к данным</button>
+    <button onclick="testLoginRedirect()">Проверить редирект на логин</button>
+    <div id="output"></div>
+
+    <script>
+        function testDataAccess() {
+            const output = document.getElementById('output');
+            output.innerHTML += '<p>Проверка доступа к данным...</p>';
+            
+            fetch('/api/load-data?filename=services.json')
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('HTTP ' + response.status);
+                    }
+                })
+                .then(data => {
+                    output.innerHTML += '<p>✅ Данные services.json загружены: ' + data.length + ' записей</p>';
+                })
+                .catch(error => {
+                    output.innerHTML += '<p>❌ Ошибка загрузки services.json: ' + error.message + '</p>';
+                });
+                
+            fetch('/api/load-data?filename=doctors.json')
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('HTTP ' + response.status);
+                    }
+                })
+                .then(data => {
+                    output.innerHTML += '<p>✅ Данные doctors.json загружены: ' + data.length + ' записей</p>';
+                })
+                .catch(error => {
+                    output.innerHTML += '<p>❌ Ошибка загрузки doctors.json: ' + error.message + '</p>';
+                });
+        }
+
+        function testLoginRedirect() {
+            localStorage.removeItem('adminAuthenticated');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

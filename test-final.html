@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Финальный тест</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Финальный тест API</h1>
+    <button onclick="testLoadDoctors()">Загрузить врачей</button>
+    <button onclick="testLoadServices()">Загрузить услуги</button>
+    <button onclick="testSaveDoctor()">Сохранить врача</button>
+    <div id="result"></div>
+
+    <script>
+        async function testLoadDoctors() {
+            try {
+                const response = await fetch('/api/load-data?filename=doctors.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                document.getElementById('result').innerHTML = '<p style="color: red;">Error: ' + error.message + '</p>';
+                console.error('Load error:', error);
+            }
+        }
+
+        async function testLoadServices() {
+            try {
+                const response = await fetch('/api/load-data?filename=services.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                document.getElementById('result').innerHTML = '<p style="color: red;">Error: ' + error.message + '</p>';
+                console.error('Load error:', error);
+            }
+        }
+
+        async function testSaveDoctor() {
+            try {
+                // Создаем тестовые данные
+                const testData = [
+                    {
+                        "id": 1,
+                        "name": "Петров Иван Иванович",
+                        "specialty": "Терапевт",
+                        "experience": 15
+                    },
+                    {
+                        "id": 2,
+                        "name": "Иванова Мария Сергеевна",
+                        "specialty": "Кардиолог",
+                        "experience": 12
+                    },
+                    {
+                        "id": 3,
+                        "name": "Новый Врач",
+                        "specialty": "Невролог",
+                        "experience": 10
+                    }
+                ];
+
+                const response = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        filename: 'doctors.json',
+                        data: testData
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                document.getElementById('result').innerHTML = '<p style="color: green;">Success: ' + JSON.stringify(result) + '</p>';
+                
+                // Проверим, что данные сохранились
+                setTimeout(() => {
+                    testLoadDoctors();
+                }, 1000);
+            } catch (error) {
+                document.getElementById('result').innerHTML = '<p style="color: red;">Error: ' + error.message + '</p>';
+                console.error('Save error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

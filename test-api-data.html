@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тест API данных</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Тест API данных</h1>
+    <button onclick="testLoadDoctors()">Загрузить врачей</button>
+    <button onclick="testLoadServices()">Загрузить услуги</button>
+    <button onclick="testLoadNews()">Загрузить новости</button>
+    <div id="result"></div>
+
+    <script>
+        async function testLoadDoctors() {
+            try {
+                const response = await fetch('/api/load-data?filename=doctors.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                document.getElementById('result').innerHTML = '<p style="color: red;">Error: ' + error.message + '</p>';
+                console.error('Load error:', error);
+            }
+        }
+
+        async function testLoadServices() {
+            try {
+                const response = await fetch('/api/load-data?filename=services.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                document.getElementById('result').innerHTML = '<p style="color: red;">Error: ' + error.message + '</p>';
+                console.error('Load error:', error);
+            }
+        }
+
+        async function testLoadNews() {
+            try {
+                const response = await fetch('/api/load-data?filename=news.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                document.getElementById('result').innerHTML = '<p style="color: red;">Error: ' + error.message + '</p>';
+                console.error('Load error:', error);
+            }
+        }
+    </script>
+</body>
+</html>
