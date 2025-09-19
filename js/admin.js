@@ -25,12 +25,12 @@ async function initializeAdmin() {
 async function loadAllData() {
     try {
         // Загружаем врачей через API
-        const doctorsResponse = await fetch('/api/load-data?filename=doctors.json');
+        const doctorsResponse = await fetch('/api/load-data?type=doctors');
         const doctorsData = await doctorsResponse.json();
         renderDoctors(doctorsData);
 
         // Загружаем услуги через API
-        const servicesResponse = await fetch('/api/load-data?filename=services.json');
+        const servicesResponse = await fetch('/api/load-data?type=services');
         const servicesData = await servicesResponse.json();
         renderServices(servicesData);
 
@@ -45,7 +45,7 @@ async function loadAllData() {
         renderReviews(reviewsData);
 
         // Загружаем настройки через API
-        const settingsResponse = await fetch('/api/load-data?filename=settings.json');
+        const settingsResponse = await fetch('/api/load-data?type=settings');
         const settingsData = await settingsResponse.json();
         loadSettings(settingsData);
 
@@ -408,7 +408,7 @@ async function saveDoctorsData() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                filename: 'doctors.json',
+                dataType: 'doctors',
                 data: currentData.doctors
             })
         });
@@ -510,7 +510,7 @@ async function saveServicesData() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                filename: 'services.json',
+                dataType: 'services',
                 data: currentData.services
             })
         });
@@ -619,7 +619,7 @@ async function saveSettings() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                filename: 'settings.json',
+                dataType: 'settings',
                 data: settings
             })
         });
@@ -645,7 +645,7 @@ async function saveAllData() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                filename: 'doctors.json',
+                dataType: 'doctors',
                 data: currentData.doctors
             })
         });
@@ -661,7 +661,7 @@ async function saveAllData() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                filename: 'services.json',
+                dataType: 'services',
                 data: currentData.services
             })
         });

@@ -1,0 +1,8 @@
+This directory will contain images for the WordPress theme.
+In a real implementation, you would place your actual images here:
+- logo.png (site logo)
+- hero1.jpg, hero2.jpg, hero3.jpg (hero slider images)
+- doctor1.jpg, doctor2.jpg, etc. (doctor images)
+- service1.jpg, service2.jpg, etc. (service images)
+- news1.jpg, news2.jpg, etc. (news images)
+- stats-bg.jpg (background for statistics section)

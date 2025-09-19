@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестирование работы с базой данных</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-card {
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #ecf0f1;
+        }
+        .result {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success {
+            background-color: #d5f5e3;
+            color: #27ae60;
+            border: 1px solid #27ae60;
+        }
+        .error {
+            background-color: #fadbd8;
+            color: #c0392b;
+            border: 1px solid #c0392b;
+        }
+        .info {
+            background-color: #d6eaf8;
+            color: #2980b9;
+            border: 1px solid #2980b9;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 15px auto;
+            width: 250px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .instructions {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .step {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Тестирование работы с базой данных</h1>
+        
+        <div class="instructions">
+            <h2>Инструкция по тестированию:</h2>
+            <div class="step">
+                <strong>Шаг 1:</strong> Убедитесь, что MySQL сервер запущен
+            </div>
+            <div class="step">
+                <strong>Шаг 2:</strong> База данных "privatna_likarnya" создана
+            </div>
+            <div class="step">
+                <strong>Шаг 3:</strong> Таблицы созданы (выполните database/setup.sql)
+            </div>
+            <div class="step">
+                <strong>Шаг 4:</strong> Установлен пакет mysql2: <code>npm install mysql2</code>
+            </div>
+            <div class="step">
+                <strong>Шаг 5:</strong> Запустите Netlify Dev: <code>netlify dev</code>
+            </div>
+        </div>
+
+        <div class="test-card">
+            <h2>👨‍⚕️ Тест загрузки врачей</h2>
+            <button onclick="testLoadDoctors()">Загрузить врачей</button>
+            <div id="doctorsResult"></div>
+        </div>
+
+        <div class="test-card">
+            <h2>🏥 Тест загрузки услуг</h2>
+            <button onclick="testLoadServices()">Загрузить услуги</button>
+            <div id="servicesResult"></div>
+        </div>
+
+        <div class="test-card">
+            <h2>📝 Тест сохранения данных</h2>
+            <button onclick="testSaveData()">Сохранить тестовые данные</button>
+            <div id="saveResult"></div>
+        </div>
+
+        <div class="test-card">
+            <h2>📋 Полный тест системы</h2>
+            <button onclick="runFullTest()">Запустить полный тест</button>
+            <div id="fullTestResult"></div>
+        </div>
+    </div>
+
+    <script>
+        function showResult(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="result ${type}">${message}</div>`;
+        }
+
+        async function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function testLoadDoctors() {
+            try {
+                showResult('doctorsResult', '⏳ Загрузка данных врачей...', 'info');
+                await delay(500);
+                
+                const response = await fetch('/api/load-data?type=doctors');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const doctors = await response.json();
+                showResult('doctorsResult', `✅ Загружено ${doctors.length} врачей из базы данных`, 'success');
+                
+                if (doctors.length > 0) {
+                    const preview = doctors.slice(0, 3);
+                    showResult('doctorsResult', `✅ Загружено ${doctors.length} врачей из базы данных<br><pre>${JSON.stringify(preview, null, 2)}</pre>`, 'success');
+                }
+            } catch (error) {
+                showResult('doctorsResult', `❌ Ошибка загрузки врачей: ${error.message}`, 'error');
+            }
+        }
+
+        async function testLoadServices() {
+            try {
+                showResult('servicesResult', '⏳ Загрузка данных услуг...', 'info');
+                await delay(500);
+                
+                const response = await fetch('/api/load-data?type=services');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const services = await response.json();
+                showResult('servicesResult', `✅ Загружено ${services.length} услуг из базы данных`, 'success');
+                
+                if (services.length > 0) {
+                    const preview = services.slice(0, 3);
+                    showResult('servicesResult', `✅ Загружено ${services.length} услуг из базы данных<br><pre>${JSON.stringify(preview, null, 2)}</pre>`, 'success');
+                }
+            } catch (error) {
+                showResult('servicesResult', `❌ Ошибка загрузки услуг: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSaveData() {
+            try {
+                showResult('saveResult', '⏳ Сохранение тестовых данных...', 'info');
+                await delay(500);
+                
+                // Создаем тестового врача
+                const testDoctor = {
+                    id: Date.now(),
+                    name: "Тестовый Врач БД",
+                    specialty: "Тестовая специальность",
+                    experience: "10 лет",
+                    photo: "images/doctor-placeholder.jpg",
+                    description: "Тестовый врач для проверки работы с базой данных",
+                    education: "Тестовое медицинское образование",
+                    schedule: {
+                        monday: "9:00-17:00",
+                        tuesday: "9:00-17:00",
+                        wednesday: "9:00-17:00",
+                        thursday: "9:00-17:00",
+                        friday: "9:00-15:00",
+                        saturday: "выходной",
+                        sunday: "выходной"
+                    }
+                };
+                
+                // Загружаем текущих врачей
+                const loadResponse = await fetch('/api/load-data?type=doctors');
+                const currentDoctors = await loadResponse.json();
+                
+                // Добавляем тестового врача
+                const updatedDoctors = [...currentDoctors, testDoctor];
+                
+                // Сохраняем данные
+                const saveResponse = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        dataType: 'doctors',
+                        data: updatedDoctors
+                    })
+                });
+                
+                if (saveResponse.ok) {
+                    showResult('saveResult', '✅ Тестовые данные успешно сохранены в базе данных!', 'success');
+                } else {
+                    const errorText = await saveResponse.text();
+                    showResult('saveResult', `❌ Ошибка сохранения данных: ${saveResponse.status} - ${errorText}`, 'error');
+                }
+            } catch (error) {
+                showResult('saveResult', `❌ Ошибка сохранения данных: ${error.message}`, 'error');
+            }
+        }
+
+        async function runFullTest() {
+            showResult('fullTestResult', '🚀 Запуск полного тестирования...', 'info');
+            
+            await testLoadDoctors();
+            await delay(1000);
+            await testLoadServices();
+            await delay(1000);
+            await testSaveData();
+            
+            showResult('fullTestResult', '🎉 Все тесты завершены! Система работает корректно с базой данных.', 'success');
+        }
+    </script>
+</body>
+</html>

@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "init-data": "node scripts/init-data.js",
+    "init-supabase": "node scripts/init-supabase.js",
+    "test-simple-supabase": "node test-simple-supabase.js",
+    "test-db": "node test-db-connection.js",
     "start": "python -m http.server 8000",
     "build": "echo 'No build required for static site'",
     "deploy": "node deploy-netlify.js",
@@ -18,6 +21,7 @@
   "author": "Medical Site Team",
   "license": "MIT",
   "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
     "http-server": "^14.1.1",
     "netlify-cli": "^17.0.0"
   }

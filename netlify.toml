@@ -4,12 +4,12 @@
 
 [[redirects]]
   from = "/api/save-data"
-  to = "/.netlify/functions/save-data"
+  to = "/.netlify/functions/simple-save-data"
   status = 200
 
 [[redirects]]
   from = "/api/load-data"
-  to = "/.netlify/functions/load-data"
+  to = "/.netlify/functions/simple-load-data"
   status = 200
 
 [[redirects]]
