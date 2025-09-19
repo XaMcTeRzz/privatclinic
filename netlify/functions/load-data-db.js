@@ -60,7 +60,7 @@ exports.handler = async (event, context) => {
       case 'services':
         const { data: services, error: servicesError } = await supabase
           .from('services')
-          .select('id, name, description, price, duration')
+          .select('id, title as name, description, icon_class as icon, price, duration, category, is_active as available')
           .order('id', { ascending: true });
         
         if (servicesError) throw servicesError;

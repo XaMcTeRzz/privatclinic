@@ -85,12 +85,15 @@ exports.handler = async (event, context) => {
         
         // Вставляем новые данные
         if (data && data.length > 0) {
-          // Подготавливаем данные для вставки
+          // Подготавливаем данные для вставки с правильным маппингом полей
           const servicesToInsert = data.map((service, index) => ({
-            name: service.name,
+            title: service.name,
             description: service.description || '',
+            icon_class: service.icon || '',
             price: service.price ? parseFloat(service.price) : null,
-            duration: service.duration || ''
+            duration: service.duration || '',
+            category: service.category || '',
+            is_active: service.available !== undefined ? service.available : true
           }));
           
           const { data: insertedServices, error: insertServicesError } = await supabase

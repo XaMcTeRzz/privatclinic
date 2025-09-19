@@ -1120,24 +1120,26 @@ function loadJSONData(url) {
 
 // Функция для сохранения JSON данных
 function saveJSONData(url, data) {
-    // В реальном приложении здесь был бы API вызов
-    // Для демонстрации просто возвращаем Promise
-    return new Promise((resolve, reject) => {
-        // Создаем blob с данными
-        const jsonData = JSON.stringify(data, null, 2);
-        const blob = new Blob([jsonData], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        
-        // Создаем ссылку для скачивания
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = url.split('/').pop();
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        
-        resolve();
+    // Извлекаем имя файла из URL и определяем тип данных
+    const filename = url.split('/').pop();
+    const dataType = filename.replace('.json', '');
+    
+    // Отправляем данные на сервер через API в формате save-data-db
+    return fetch('/api/save-data', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            dataType: dataType,
+            data: data
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
     });
 }
 
