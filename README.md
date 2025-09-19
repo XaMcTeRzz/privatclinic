@@ -193,7 +193,7 @@ npm run test-simple-supabase
 
 1. Клонируйте репозиторий:
    ```
-   git clone <repository-url>
+   git clone https://github.com/XaMcTeRzz/privatclinic.git
    ```
 
 2. Установите зависимости:
@@ -243,7 +243,22 @@ npm run test-simple-supabase
 
 ## Деплой
 
-Проект автоматически деплоится на Netlify при пуше в репозиторий.
+### Деплой на Netlify
+
+1. Зайдите в панель управления Netlify
+2. Нажмите "New site from Git"
+3. Выберите GitHub и авторизуйтесь
+4. Выберите репозиторий `XaMcTeRzz/privatclinic`
+5. Настройте параметры деплоя:
+   - Branch to deploy: `master`
+   - Build command: оставьте пустым (статический сайт)
+   - Publish directory: `.` (точка)
+6. Добавьте переменные окружения:
+   - `SUPABASE_URL`: https://egfibejxkmwppddzehet.supabase.co
+   - `SUPABASE_KEY`: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVnZmliZWp4a213cHBkZHplaGV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMjE1MTQsImV4cCI6MjA3Mzc5NzUxNH0.2IwoEezkPt0CJFvwqo0grGgp72ySJqCeNoUaVQSopQU
+7. Нажмите "Deploy site"
+
+Подробная инструкция по деплою находится в файле [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ## API
 
@@ -264,6 +279,10 @@ npm run test-simple-supabase
 - `load-data-db.js` - загрузка данных из Supabase
 - `save-data-db.js` - сохранение данных в Supabase
 - `supabase-client.js` - клиент Supabase
+
+### Конфигурация Supabase
+
+Подробная информация о конфигурации Supabase находится в файле [SUPABASE_CONFIGURATION.md](SUPABASE_CONFIGURATION.md).
 
 ## Лицензия
 
